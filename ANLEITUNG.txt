@@ -1,0 +1,12 @@
+Version 2.8 – Testversion für die LimeSurvey-Anbindung
+
+1. index.html in GitHub Pages ersetzen. Die Links ?variante=A und ?variante=B bleiben erhalten.
+2. Jede Variante ist bei entsprechendem URL-Parameter fest vorgegeben. Auswahl-/Entwickleroberfläche ist ausgeblendet.
+3. Richtige Antworten: Aufgabe 1 A, Aufgabe 2 C, Aufgabe 3 B, Aufgabe 4 A, Aufgabe 5 C.
+4. LimeSurvey: Je Fragengruppe ein Datenfeld vom Typ Langer freier Text anlegen, Codes STUDIENDATEN_A und STUDIENDATEN_B. Fragewortlaut eindeutig DATENFELD_STUDIENDATEN_A bzw. DATENFELD_STUDIENDATEN_B. NICHT verpflichtend, NICHT als versteckte Frage mit Relevanz 0 anlegen. Optisch erst nach erfolgreichem Test verbergen.
+5. Im JavaScript-/Skriptbereich der Dashboard-Textanzeigefrage den Inhalt der Datei limesurvey_empfaenger_A.html bzw. _B.html hinterlegen. LimeSurvey kann Skripte filtern; Funktionalität ist vor Einsatz zu testen.
+6. Beide Fragengruppen erhalten die Bedingung VARIANTE == 1 bzw. VARIANTE == 2.
+7. Ein Testlauf ist erst erfolgreich, wenn nach Klick auf „Weiter“ der JSON-Datensatz in LimeSurvey unter Antworten erscheint und der richtigen Variante zugeordnet ist.
+8. Die Umfrage bis dahin nicht aktivieren. GitHub Pages ist öffentlich, Datenschutzhinweise/Hosting sind noch abzustimmen.
+
+ACHTUNG: postMessage bestätigt nur, dass der Wert in ein Formularfeld geschrieben wurde, nicht dass LimeSurvey ihn dauerhaft gespeichert hat. Der Test der Antworttabelle ist erforderlich. Der JavaScript-Empfänger kann je nach LimeSurvey-Konfiguration zusätzliche Anpassungen benötigen.

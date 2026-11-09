@@ -1,0 +1,1 @@
+Version 2.5: Der Aufgaben-Absenden-Button verwendet einen direkten Klick-Handler statt eines HTML-Formular-Submit. Dies soll Einbettungskonflikte umgehen. Bitte innerhalb LimeSurvey testen. Keine zentrale Datenspeicherung; nur Testversion. Die GitHub-Datei index.html ersetzen.

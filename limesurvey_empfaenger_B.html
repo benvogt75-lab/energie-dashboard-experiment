@@ -1,0 +1,22 @@
+<script>
+(function () {
+  'use strict';
+  var allowedOrigin = 'https://benvogt75-lab.github.io';
+  var expectedVariant = 'B'; // In Fragengruppe B auf 'B' ändern.
+  window.addEventListener('message', function (event) {
+    if (event.origin !== allowedOrigin || !event.data || event.data.type !== 'ENERGIE_STUDIE_RESULT_V1') return;
+    if (event.data.variante !== expectedVariant || !event.data.payload || event.data.payload.variante !== expectedVariant) return;
+    // Das Datenspeicherfeld liegt in derselben Fragengruppe und trägt die Kennung STUDIENDATEN_A/B.
+    var code = 'STUDIENDATEN_' + expectedVariant;
+    var target = Array.from(document.querySelectorAll('[id^="question"]')).find(function (el) {
+      return el.querySelector('textarea') && (el.textContent || '').includes('DATENFELD_' + code);
+    });
+    var field = target && target.querySelector('textarea');
+    if (!field) { console.error('LimeSurvey-Datenfeld nicht gefunden: ' + code); return; }
+    field.value = JSON.stringify(event.data.payload);
+    field.dispatchEvent(new Event('input', {bubbles: true}));
+    field.dispatchEvent(new Event('change', {bubbles: true}));
+    event.source.postMessage({type:'ENERGIE_STUDIE_ACK_V1',variante:expectedVariant},event.origin);
+  });
+})();
+</script>

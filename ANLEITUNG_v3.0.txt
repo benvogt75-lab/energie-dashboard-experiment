@@ -1,0 +1,36 @@
+Version 3.0 – zwei Durchgänge (Variante A und B) mit zufälliger Reihenfolge, zwei Aufgabensets, Items einmal am Ende
+
+1. index.html in GitHub Pages ersetzen. Die alten Links ?variante=A und ?variante=B werden nicht mehr verwendet.
+   Studienlink: .../index.html            (Bedingung wird zufällig gewählt, nicht gleichverteilt)
+                .../index.html?bedingung=1 bis 4   (Bedingung fest vorgegeben, z. B. aus LimeSurvey)
+   Vorschau ohne Datenerhebung: .../index.html?vorschau=A&set=1 (oder B, set=2)
+
+2. Bedingungen (Durchgang 1 -> Durchgang 2):
+   1: Variante A mit Set 1 -> Variante B mit Set 2
+   2: Variante A mit Set 2 -> Variante B mit Set 1
+   3: Variante B mit Set 1 -> Variante A mit Set 2
+   4: Variante B mit Set 2 -> Variante A mit Set 1
+
+3. Richtige Antworten
+   Set 1: Aufgabe 1 A, Aufgabe 2 C, Aufgabe 3 B, Aufgabe 4 A, Aufgabe 5 C
+   Set 2: Aufgabe 1 B, Aufgabe 2 A, Aufgabe 3 A, Aufgabe 4 B, Aufgabe 5 A
+   Die Gleichwertigkeit beider Sets ist im Pretest zu prüfen. Set und Variante werden im Datensatz je Aufgabe gespeichert.
+
+4. Items: Die zehn Aussagen stehen einmal am Ende, je Aussage eine Bewertung für „Oberfläche 1“ und „Oberfläche 2“ (Reihenfolge der Durchgänge), darüber je ein Screenshot der gesehenen Ansicht. Danach Präferenzfrage und offene Frage. Im Datensatz ist jede Bewertung der Variante A oder B zugeordnet.
+   Vertrauensitems fehlen noch: In index.html die leere Liste trustItems mit den Aussagen füllen. Sie werden dann automatisch für beide Oberflächen abgefragt.
+
+5. LimeSurvey (Vorschlag, vor Einsatz testen; Muster aus der LimeSurvey-Community, keine offizielle Anleitung)
+   a) Seite 1: Frage vom Typ „Gleichung“, Code BEDINGUNG, Fragetext
+      {if(is_empty(BEDINGUNG.NAOK), rand(1,4), BEDINGUNG.NAOK)}
+      Der Wert wird so nur einmal gewürfelt und gespeichert. Gleich große Gruppen sind nicht garantiert; Verteilung während der Erhebung prüfen.
+   b) Seite 2: Textanzeigefrage mit der eingebetteten Studie, Link: <Ihr GitHub-Pages-Link>/index.html?bedingung={BEDINGUNG}
+      (ob der Ausdruck im Fragetext ersetzt wird, im Test prüfen) sowie ein Datenfeld vom Typ „Langer freier Text“ mit Code STUDIENDATEN und dem Fragewortlaut DATENFELD_STUDIENDATEN.
+      Das Datenfeld NICHT verpflichtend und NICHT als versteckte Frage mit Relevanz 0 anlegen. Optisch erst nach erfolgreichem Test verbergen.
+   c) Im JavaScript-/Skriptbereich der Textanzeigefrage den Inhalt von limesurvey_empfaenger.html hinterlegen. LimeSurvey kann Skripte filtern; Funktionalität testen.
+   d) Es gibt nur noch eine Fragengruppe für die Studie. Die Bedingungen VARIANTE == 1 bzw. 2 und die zwei Empfängerdateien A/B entfallen.
+
+6. Ein Testlauf ist erst erfolgreich, wenn nach Klick auf „Weiter“ der JSON-Datensatz in LimeSurvey unter Antworten erscheint und bedingung, reihenfolge, runden, aufgaben und likert enthält.
+
+7. Die Umfrage bis dahin nicht aktivieren. GitHub Pages ist öffentlich, Datenschutzhinweise/Hosting sind noch abzustimmen.
+
+ACHTUNG: postMessage bestätigt nur, dass der Wert in ein Formularfeld geschrieben wurde, nicht dass LimeSurvey ihn dauerhaft gespeichert hat. Der Test der Antworttabelle ist erforderlich.
